@@ -1,0 +1,16 @@
+{
+  "accounts": [
+    {
+      "email": "example1@ss.com",
+      "password": "123456"
+    },
+    {
+      "email": "example2@ternal.com",
+      "password": "123456"
+    },
+    {
+      "email": "exxamplee@qa.com",
+      "password": "1234564"
+    }
+  ]
+}
