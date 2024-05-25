@@ -3,39 +3,60 @@
 <head>
   <style>
     body {
-      width: 300px;
-      height: 200px;
+      width: 400px; 
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
+      padding: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 10px;
+      table-layout: fixed;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    td.email {
+      color: blue;
+      cursor: pointer;
+      text-decoration: underline;
+      white-space: nowrap; 
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px; 
+      position: relative;
+    }
+    td.email.break-lines {
+      white-space: normal; 
+    }
+    td.description {
+      font-size: 12px; 
     }
     button {
-      padding: 15px;
-      font-size: 18px;
+      padding: 10px;
+      font-size: 16px;
       cursor: pointer;
       background-color: #007BFF;
       color: white;
       border: none;
       border-radius: 5px;
       margin-bottom: 10px;
+      width: 100%;
     }
     button:hover {
       background-color: #0056b3;
     }
-    select {
-      padding: 10px;
-      font-size: 14px;
-      color: #333;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin-bottom: 10px;
-      width: 100%;
-    }
-    select option {
-      font-size: 14px;
-    }
-    #checkStatus {
+    #energyStatus {
       margin-top: 10px;
       font-size: 16px;
       color: #333;
@@ -43,11 +64,20 @@
   </style>
 </head>
 <body>
-  <select id="emailDropdown">
-    <option value="">Select email</option>
-  </select>
-  <button id="run">Clear API Cache</button>
-  <div id="checkStatus">Checking status...</div>
+  <table id="accountsTable">
+    <thead>
+      <tr>
+        <th>Attribute 1</th>
+        <th>Attribute 2</th>
+        <th>Attribute 3</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data will be inserted here -->
+    </tbody>
+  </table>
+  <button id="run">Clear</button>
+  <div id="energyStatus">Checking...</div>
   <script src="popup.js"></script>
 </body>
 </html>

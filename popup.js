@@ -1,43 +1,59 @@
 document.getElementById('run').addEventListener('click', function() {
-  chrome.runtime.sendMessage({action: "runScript"});
+  chrome.runtime.sendMessage({ action: "runScript" });
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-  fetch(chrome.runtime.getURL('accounts.json'))
+  fetch(chrome.runtime.getURL('datafile.json'))
     .then(response => response.json())
     .then(data => {
-      const dropdown = document.getElementById('emailDropdown');
+      const tableBody = document.getElementById('accountsTable').querySelector('tbody');
       data.accounts.forEach(account => {
-        const option = document.createElement('option');
-        option.value = account.email;
-        option.textContent = account.email;
-        dropdown.appendChild(option);
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="email" data-email="${account.email}">${account.email}</td>
+          <td class="attribute">${account.attribute}</td>
+          <td class="description">${account.description}</td>
+        `;
+        row.querySelector('.email').addEventListener('click', function () {
+          chrome.runtime.sendMessage({ action: "logoutAndLogin", email: account.email, password: account.password });
+        });
+        row.querySelector('.attribute').addEventListener('click', function () {
+          navigator.clipboard.writeText(account.attribute).then(() => {
+            const attributeCell = row.querySelector('.attribute');
+            const originalText = attributeCell.textContent;
+            attributeCell.textContent = 'copy that';
+            setTimeout(() => {
+              attributeCell.textContent = originalText;
+            }, 2000); // Revert after 2 seconds
+          });
+        });
+
+        let hoverTimeout;
+        const emailCell = row.querySelector('.email');
+
+        emailCell.addEventListener('mouseenter', function () {
+          hoverTimeout = setTimeout(() => {
+            emailCell.classList.add('break-lines');
+          }, 2000); // Break lines after 2 seconds
+        });
+
+        emailCell.addEventListener('mouseleave', function () {
+          clearTimeout(hoverTimeout);
+          emailCell.classList.remove('break-lines');
+        });
+
+        tableBody.appendChild(row);
       });
     });
 
-  // When the popup loads, ask the background page to check the  status
-  chrome.runtime.sendMessage({action: "checkStatus"}, function(response) {
+  // When the popup loads, ask the background page to check the status
+  chrome.runtime.sendMessage({ action: "checkalphaStatus" }, function (response) {
     // Update the label with the response from the background page
-    const checkStatus = document.getElementById('checkStatus');
-    if (response.hasEnergy) {
-      checkStatus.textContent = 'Has good status';
+    const alphaStatus = document.getElementById('alphaStatus');
+    if (response.hasalpha) {
+      alphaStatus.textContent = 'Has alpha ';
     } else {
-      checkStatus.textContent = 'No status';
+      alphaStatus.textContent = 'No alpha ';
     }
   });
-});
-
-// Trigger logout and login on dropdown selection
-document.getElementById('emailDropdown').addEventListener('change', function() {
-  const selectedEmail = document.getElementById('emailDropdown').value;
-  if (selectedEmail) {
-    fetch(chrome.runtime.getURL('accounts.json'))
-      .then(response => response.json())
-      .then(data => {
-        const account = data.accounts.find(acc => acc.email === selectedEmail);
-        if (account) {
-          chrome.runtime.sendMessage({action: "logoutAndLogin", email: account.email, password: account.password});
-        }
-      });
-  }
 });

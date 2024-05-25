@@ -1,11 +1,11 @@
 const LOGOUT_URL = "https://example.com/oauth2/logout";
 const LOGIN_URL = "https://www.example.com/ui";
 const CLEAR_CACHE_URL = "https://example.com/api/clear";
-const AUTHORIZATION_HEADER = "Basic exampleAuthorizationHeader";
+const AUTHORIZATION_HEADER = "exampleAuthorizationHeader";
 const BT_ENV = "exampleEnv";
 const BASE_URL = "https://www.example.com";
-const OAUTH_COOKIE_NAME = "OAuth2TokenExample";
-const SESSION_COOKIE_NAME = "SessionTokenExample";
+const AUTH_COOKIE_NAME = "AuthorizationTokenExample";
+const AUTH2_COOKIE_NAME = "Authorization2TokenExample";
 const EMAIL_SELECTOR = 'input[name="email"]';
 const PASSWORD_SELECTOR = 'input[name="password"]';
 const LOGIN_BUTTON_SELECTOR = 'button[type="submit"]';
@@ -23,17 +23,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 });
 
 function clearApiCache() {
-  chrome.cookies.get({ url: BASE_URL, name: OAUTH_COOKIE_NAME }, function(oauthCookie) {
-    chrome.cookies.get({ url: BASE_URL, name: SESSION_COOKIE_NAME }, function(sessionCookie) {
+  chrome.cookies.get({ url: BASE_URL, name: AUTH_COOKIE_NAME }, function(auth4Cookie) {
+    chrome.cookies.get({ url: BASE_URL, name: AUTH2_COOKIE_NAME }, function(auth3Cookie) {
       var myHeaders = new Headers();
-      myHeaders.append("t-target", "overview");
+      myHeaders.append("t-target", "authauth");
 
-      if (sessionCookie) {
-        myHeaders.append("t-session-token", sessionCookie.value);
+      if (auth3Cookie) {
+        myHeaders.append("auth3-token", auth3Cookie.value);
       }
 
-      if (oauthCookie) {
-        myHeaders.append("t-oauth2-token", oauthCookie.value);
+      if (auth4Cookie) {
+        myHeaders.append("auth4-token", auth4Cookie.value);
       }
 
       myHeaders.append("example-env", BT_ENV);
