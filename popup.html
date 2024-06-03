@@ -3,7 +3,7 @@
 <head>
   <style>
     body {
-      width: 400px; 
+      width: 500px; /* Increased width */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -30,17 +30,15 @@
       color: blue;
       cursor: pointer;
       text-decoration: underline;
-      white-space: nowrap; 
+      white-space: nowrap; /* Prevent email from breaking into multiple lines */
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 150px; 
+      max-width: 300px; /* Set a max width for the email column */
       position: relative;
     }
-    td.email.break-lines {
-      white-space: normal; 
-    }
     td.description {
-      font-size: 12px; 
+      font-size: 12px; /* Smaller text for description */
+      max-width: 200px; /* Set a max width for the description column */
     }
     button {
       padding: 10px;
@@ -56,28 +54,45 @@
     button:hover {
       background-color: #0056b3;
     }
-    #energyStatus {
+    #alphaStatus {
       margin-top: 10px;
       font-size: 16px;
       color: #333;
     }
+    select {
+      width: 100%;
+      padding: 6px;
+      font-size: 14px; /* Make the font size same as single BANs */
+    }
+    .ban {
+      font-size: 14px; /* Ensure single BANs have the same font size */
+    }
+    #searchInput {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
+  <input type="text" id="searchInput" placeholder="Search...">
   <table id="accountsTable">
     <thead>
       <tr>
-        <th>Attribute 1</th>
-        <th>Attribute 2</th>
-        <th>Attribute 3</th>
+        <th>Email</th>
+        <th>Attribute</th>
+        <th>Description</th>
       </tr>
     </thead>
     <tbody>
       <!-- Data will be inserted here -->
     </tbody>
   </table>
-  <button id="run">Clear</button>
-  <div id="energyStatus">Checking...</div>
+  <button id="run">Clear Cache</button>
+  <div id="alphaStatus">Checking alpha...</div>
   <script src="popup.js"></script>
 </body>
 </html>

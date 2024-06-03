@@ -15,7 +15,7 @@
     {
       "email": "example1@ss.com",
       "password": "123456",
-      "attribute": "value",
+      "attribute": ["value","value2", "value3"],
       "description": "description"
     }
   ]
